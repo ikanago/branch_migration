@@ -1,34 +1,37 @@
 # branch_migration
 
-At `main` branch:
+From `e36d06b` at `main` branch in this repogitory:
 ```bash
-cat meow > cat.txt
+echo meow2 > cat.txt
 git add .
 git commit
-git push -u origin main
+git push
 ```
 
 Create `neko` branch and switch to it:
 ```bash
-git switch -c neko
-cat nya > neko.txt
+git switch neko
+echo meowmeow > cat.txt
 git add .
 git commit
-git push -u origin neko
+git push
 ```
 
-Now `neko` is 1 commit ahead.
+Now `neko` is not fast-forward to `main`; there is a conflict in `cat.txt`.
 
 Back up main:
 ```bash
 git branch -m main old-main
+git push -u origin old-main
 ```
 
-On `neko`, rename `neko` to `main` and push it as a new `main`:
+Force push `neko` overwriting `main`.
+c.f. [git-push](https://git-scm.com/docs/git-push#Documentation/git-push.txt-codegitpushorigindevmastercode)
 ```bash
-git branch -m neko main
-git push -u origin main
+git push origin +neko:main
+git fetch
+git switch main
 ```
 
-The last `git push` replaces the new `main`(renamed from `neko`) to remote `main` without further operations.
+After checking `main` is a desired state, delete branches.
 
